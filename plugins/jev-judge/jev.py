@@ -61,6 +61,7 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 
 # Hardened transport: no redirects, proxy env ignored.
 _OPENER = urllib.request.build_opener(_NoRedirect, urllib.request.ProxyHandler({}))
+_VERSION = "0.1.0+zen-ua"
 
 
 def _urlopen(req, timeout=None):
