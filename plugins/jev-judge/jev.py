@@ -342,6 +342,9 @@ class JevClient:
     def _send(self, url: str, data: bytes, headers: dict):
         """One paced POST, returning the parsed JSON body. Raises."""
         self._pace(url)
+        # Some TypeSafe-compatible gateways (e.g. OpenCode Zen behind Cloudflare) reject the default
+        # Python-urllib User-Agent with HTTP 403 (error 1010); send an explicit one.
+        headers = {"User-Agent": f"hermes-jev-judge/{_VERSION}", **headers}
         req = urllib.request.Request(url, data=data, method="POST", headers=headers)
         with self._urlopen(req, timeout=self.timeout) as resp:
             return json.loads(resp.read())
